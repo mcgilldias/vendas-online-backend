@@ -1,17 +1,18 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
 import { CreateUserDto } from './dtos/createUser.dto';
+import { UserService } from './user.service';
+import { UserEntity } from './interfaces/user.entity';
 
 @Controller('user')
 export class UserController {
-  @Get()
-  async getAllUsers() {
-    return JSON.stringify({ name: 'Mcgill Evaristo Dias' });
-  }
+  constructor(private readonly userService: UserService) {}
+
   @Post()
-  async createUsers(@Body() createUser: CreateUserDto) {
-    return {
-      ...createUser,
-      password: undefined
-    };
+  async createUsers(@Body() createUser: CreateUserDto): Promise<UserEntity> {
+    return this.userService.createUser(createUser);
+  }
+  @Get()
+  async getAllUsers(): Promise<UserEntity[]> {
+    return this.userService.getAllUsers();
   }
 }
