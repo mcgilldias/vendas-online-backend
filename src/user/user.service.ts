@@ -21,6 +21,7 @@ export class UserService {
 
     const user = {
       ...createUserDto,
+      typeUser: 1,
       password: passwordHashed,
     };
 
